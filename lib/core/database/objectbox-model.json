@@ -1,0 +1,69 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:3524183436980628419",
+      "lastPropertyId": "2:4475157850492076764",
+      "name": "Class",
+      "properties": [
+        {
+          "id": "1:1431773264493000259",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:4475157850492076764",
+          "name": "code",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:865460508038738765",
+      "lastPropertyId": "4:3403803257263536951",
+      "name": "Student",
+      "properties": [
+        {
+          "id": "1:5577027482803223550",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:204904200721614069",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:6207083115722882113",
+          "name": "dateCreated",
+          "type": 10
+        },
+        {
+          "id": "4:3403803257263536951",
+          "name": "classRoomId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "1:4698567995489262705",
+          "relationTarget": "Class"
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "2:865460508038738765",
+  "lastIndexId": "1:4698567995489262705",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}
