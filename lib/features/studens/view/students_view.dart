@@ -5,20 +5,27 @@ import 'package:getx_demo/features/studens/controller/students_controller.dart';
 
 const KEY_STUDENT = 'student';
 
-class StudentsView extends StatelessWidget {
-  StudentsView({super.key});
+class StudentsView extends StatefulWidget {
+  const StudentsView({super.key});
 
+  @override
+  State<StudentsView> createState() => _StudentsViewState();
+}
+
+class _StudentsViewState extends State<StudentsView> {
   final controller = Get.find<StudentsController>();
 
   @override
   Widget build(BuildContext context) {
+    controller.loadStudents();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Students"),
       ),
       floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            Get.toNamed(addStudentRoute);
+          onPressed: () async {
+            var data = await Get.to(addStudentRoute);
+            print(data);
           },
           label: const Text("Add student")),
       body: Obx(() {

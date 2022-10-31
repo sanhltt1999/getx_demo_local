@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_demo/core/database/objectbox.dart';
 import 'package:getx_demo/core/model/class.dart';
 import 'package:getx_demo/core/model/student.dart';
 import 'package:getx_demo/features/add_student/controller/add_student_controller.dart';
@@ -39,6 +40,8 @@ class _AddStudentViewState extends State<AddStudentView> {
             onPressed: () {}, label: const Text("Add Class")),
         body: Obx(
           () {
+            if (controller.addStudentStatus.value == STATUS_SUCCESS) {}
+
             return controller.isLoading.isTrue
                 ? const Center(
                     child: CircularProgressIndicator(),
@@ -82,7 +85,10 @@ class _AddStudentViewState extends State<AddStudentView> {
                             child: TextButton(
                                 child: const Text('Save'),
                                 onPressed: () {
-                                  Navigator.pop(context);
+                                  Get.back(result: 'success');
+
+                                  // controller.addStudent(currentStudent,
+                                  //     currentClass, inputController.text);
                                 }),
                           ),
                         ],

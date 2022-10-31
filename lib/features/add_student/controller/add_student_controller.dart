@@ -8,7 +8,7 @@ class AddStudentController extends GetxController {
   late ObjectBox _objectBox;
   RxList<Class> classes = RxList();
   RxBool isLoading = false.obs;
-  RxInt addStudentStatus = 0.obs;
+  RxInt addStudentStatus = 100.obs;
 
   AddStudentController() {
     _objectBox = ObjectBox();

@@ -9,7 +9,6 @@ class StudentsController extends GetxController {
 
   StudentsController() {
     _objectBox = ObjectBox();
-    loadStudents();
   }
 
   loadStudents() async {
