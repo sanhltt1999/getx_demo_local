@@ -23,15 +23,19 @@ class AddStudentController extends GetxController {
     classes = result.obs;
   }
 
-  addStudent(Student? student, Class? classObject, String nameStudent) async {
+  addStudent(Student? student, Class? classObject, String nameStudent) {
     showLoading();
-    final result =
-        await _objectBox.addStudent(student, classObject, nameStudent);
+    _objectBox.addStudent(student, classObject, nameStudent);
     hideLoading();
-    addStudentStatus = result.obs;
+    addStudentStatus = STATUS_SUCCESS.obs;
   }
 
-  Class getBox(int? id) {
+  addClass(String className) {
+    _objectBox.addClass(className);
+    loadClasses();
+  }
+
+  Class getClass(int? id) {
     if (id == null) return classes.first;
     return _objectBox.getClass(id);
   }

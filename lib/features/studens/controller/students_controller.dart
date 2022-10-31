@@ -11,6 +11,11 @@ class StudentsController extends GetxController {
     _objectBox = ObjectBox();
   }
 
+  removeStudent(int id) {
+    _objectBox.removeStudent(id);
+    loadStudents();
+  }
+
   loadStudents() async {
     showLoading();
     final result = await _objectBox.getStudents();

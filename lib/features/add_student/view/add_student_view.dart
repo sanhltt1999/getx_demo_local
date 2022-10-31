@@ -4,6 +4,7 @@ import 'package:getx_demo/core/database/objectbox.dart';
 import 'package:getx_demo/core/model/class.dart';
 import 'package:getx_demo/core/model/student.dart';
 import 'package:getx_demo/features/add_student/controller/add_student_controller.dart';
+import 'package:getx_demo/features/add_student/view/new_class.dart';
 
 class AddStudentView extends StatefulWidget {
   const AddStudentView({super.key});
@@ -31,17 +32,20 @@ class _AddStudentViewState extends State<AddStudentView> {
 
   @override
   Widget build(BuildContext context) {
-    print(currentStudent?.id.toString());
     return Scaffold(
         appBar: AppBar(
             title:
                 Text(currentStudent == null ? "Add Student" : 'Edit Student')),
-        floatingActionButton: FloatingActionButton.extended(
-            onPressed: () {}, label: const Text("Add Class")),
+        floatingActionButton: NewClass(
+          updateClas: (className) {
+            controller.addClass(className);
+          },
+        ),
         body: Obx(
           () {
-            if (controller.addStudentStatus.value == STATUS_SUCCESS) {}
-
+            if (controller.addStudentStatus.value == STATUS_SUCCESS) {
+              Get.back(result: 'success');
+            }
             return controller.isLoading.isTrue
                 ? const Center(
                     child: CircularProgressIndicator(),
@@ -75,7 +79,7 @@ class _AddStudentViewState extends State<AddStudentView> {
                                 controller.classes.map(buildMenuItem).toList(),
                             onChanged: (int? value) {
                               setState(() {
-                                currentClass = controller.getBox(value);
+                                currentClass = controller.getClass(value);
                               });
                             },
                           ),
@@ -85,10 +89,8 @@ class _AddStudentViewState extends State<AddStudentView> {
                             child: TextButton(
                                 child: const Text('Save'),
                                 onPressed: () {
-                                  Get.back(result: 'success');
-
-                                  // controller.addStudent(currentStudent,
-                                  //     currentClass, inputController.text);
+                                  controller.addStudent(currentStudent,
+                                      currentClass, inputController.text);
                                 }),
                           ),
                         ],

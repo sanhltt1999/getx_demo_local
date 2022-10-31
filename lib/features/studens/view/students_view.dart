@@ -24,8 +24,10 @@ class _StudentsViewState extends State<StudentsView> {
       ),
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
-            var data = await Get.to(addStudentRoute);
-            print(data);
+            final result = await Get.toNamed(addStudentRoute);
+            if (result == 'success') {
+              controller.loadStudents();
+            }
           },
           label: const Text("Add student")),
       body: Obx(() {
@@ -74,16 +76,23 @@ class _StudentsViewState extends State<StudentsView> {
                         ),
                         TextButton(
                             child: const Text('Edit'),
-                            onPressed: () {
-                              Get.toNamed(addStudentRoute,
+                            onPressed: () async {
+                              final result = await Get.toNamed(addStudentRoute,
                                   arguments: controller.students[index]);
+                              if (result == 'success') {
+                                controller.loadStudents();
+                              }
+                            }),
+                        TextButton(
+                            child: const Text('Delete'),
+                            onPressed: () async {
+                              controller
+                                  .removeStudent(controller.students[index].id);
                             }),
                       ],
                     );
                   }),
-                  separatorBuilder: (context, index) => const Divider(
-                    height: 32,
-                  ),
+                  separatorBuilder: (context, index) => const Divider(),
                   itemCount: controller.students.length,
                 ),
               );

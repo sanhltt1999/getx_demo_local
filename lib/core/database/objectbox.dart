@@ -64,8 +64,7 @@ class ObjectBox {
     return result.first;
   }
 
-  Future<int> addStudent(
-      Student? student, Class? classObject, String nameStudent) async {
+  addStudent(Student? student, Class? classObject, String nameStudent) {
     if (nameStudent.isEmpty || classObject == null) {
       return STATUS_FAIL;
     }
@@ -76,7 +75,6 @@ class ObjectBox {
     }
     student.classRoom.target = classObject;
     studentBox.put(student);
-    return STATUS_SUCCESS;
   }
 
   Future<List<Class>> getClasses() {
@@ -85,5 +83,14 @@ class ObjectBox {
         .watch(triggerImmediately: true)
         .map((query) => query.find());
     return result.first;
+  }
+
+  addClass(String nameClass) {
+    Class classObject = Class(nameClass);
+    classBox.put(classObject);
+  }
+
+  removeStudent(int id) {
+    studentBox.remove(id);
   }
 }
