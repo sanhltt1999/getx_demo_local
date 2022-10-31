@@ -4,6 +4,9 @@ import 'package:getx_demo/core/database/objectbox.g.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
+const STATUS_SUCCESS = 0;
+const STATUS_FAIL = -1;
+
 class ObjectBox {
   static late final Store store;
   static late final Box<Student> studentBox;
@@ -39,11 +42,18 @@ class ObjectBox {
 
   void _putDemoData() {
     Class classObject = Class("18TCLC_DT1");
+    Class class2Object = Class("18TCLC_DT2");
+
+    classBox.putMany([classObject, class2Object]);
 
     Student student = Student("Sanh", DateTime.now());
     student.classRoom.target = classObject;
 
     studentBox.put(student);
+  }
+
+  getClass(int id) {
+    return classBox.get(id);
   }
 
   Future<List<Student>> getStudents() {
@@ -52,6 +62,21 @@ class ObjectBox {
         .watch(triggerImmediately: true)
         .map((query) => query.find());
     return result.first;
+  }
+
+  Future<int> addStudent(
+      Student? student, Class? classObject, String nameStudent) async {
+    if (nameStudent.isEmpty || classObject == null) {
+      return STATUS_FAIL;
+    }
+    if (student == null) {
+      student = Student(nameStudent, DateTime.now());
+    } else {
+      student.name = nameStudent;
+    }
+    student.classRoom.target = classObject;
+    studentBox.put(student);
+    return STATUS_SUCCESS;
   }
 
   Future<List<Class>> getClasses() {

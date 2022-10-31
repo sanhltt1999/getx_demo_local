@@ -1,28 +1,42 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:getx_demo/core/model/class.dart';
 import 'package:getx_demo/core/model/student.dart';
 import 'package:getx_demo/features/add_student/controller/add_student_controller.dart';
-import 'package:getx_demo/features/studens/view/students_view.dart';
 
-import '../../studens/controller/students_controller.dart';
+class AddStudentView extends StatefulWidget {
+  const AddStudentView({super.key});
 
-class AddStudentView extends StatelessWidget {
-  AddStudentView({Key? key}) : super(key: key);
+  @override
+  State<AddStudentView> createState() => _AddStudentViewState();
+}
 
+class _AddStudentViewState extends State<AddStudentView> {
   final controller = Get.find<AddStudentController>();
   final inputController = TextEditingController();
+  Student? currentStudent;
+  Class? currentClass;
+
+  @override
+  void initState() {
+    super.initState();
+    currentStudent = Get.arguments;
+    currentClass;
+    if (currentStudent != null) {
+      inputController.text = currentStudent?.name ?? '';
+      currentClass = currentStudent?.classRoom.target;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    Student? currentStudent = Get.arguments;
     print(currentStudent?.id.toString());
     return Scaffold(
         appBar: AppBar(
             title:
                 Text(currentStudent == null ? "Add Student" : 'Edit Student')),
+        floatingActionButton: FloatingActionButton.extended(
+            onPressed: () {}, label: const Text("Add Class")),
         body: Obx(
           () {
             return controller.isLoading.isTrue
@@ -46,20 +60,30 @@ class AddStudentView extends StatelessWidget {
                                     fontSize: 15.0,
                                   ))),
                           DropdownButton<int>(
-                              value: currentStudent?.id,
-                              items: controller.classes
-                                  .map(buildMenuItem)
-                                  .toList(),
-                              underline: Container(
-                                height: 2,
-                                color: Colors.blueAccent,
-                              ),
-                              onChanged: (value) => {}),
+                            value: currentClass?.id,
+                            icon: const Icon(Icons.arrow_downward),
+                            elevation: 16,
+                            style: const TextStyle(color: Colors.deepPurple),
+                            underline: Container(
+                              height: 2,
+                              color: Colors.deepPurpleAccent,
+                            ),
+                            items:
+                                controller.classes.map(buildMenuItem).toList(),
+                            onChanged: (int? value) {
+                              setState(() {
+                                currentClass = controller.getBox(value);
+                              });
+                            },
+                          ),
                           const Spacer(),
                           Padding(
                             padding: const EdgeInsets.only(right: 10.0),
                             child: TextButton(
-                                child: const Text('Save'), onPressed: () {}),
+                                child: const Text('Save'),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                }),
                           ),
                         ],
                       ),

@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
                 ),
                 GetPage(
                   name: addStudentRoute,
-                  page: () => AddStudentView(),
+                  page: () => const AddStudentView(),
                   binding: AddStudentBinding(),
                 )
               ],
