@@ -9,43 +9,33 @@ import 'package:getx_demo/features/add_student/view/add_student_view.dart';
 import 'features/studens/binding/students_binding.dart';
 import 'features/studens/view/students_view.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await ObjectBox().create();
+  ObjectBox().openBoxes();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: ObjectBox().create(),
-      builder: (context, snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.done:
-            return GetMaterialApp(
-              title: "Main",
-              getPages: [
-                GetPage(
-                  name: stutdentsRoute,
-                  page: () => const StudentsView(),
-                  binding: StudentsBinding(),
-                ),
-                GetPage(
-                  name: addStudentRoute,
-                  page: () => const AddStudentView(),
-                  binding: AddStudentBinding(),
-                )
-              ],
-              initialRoute: stutdentsRoute,
-            );
-          default:
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-        }
-      },
+    return GetMaterialApp(
+      title: "Main",
+      getPages: [
+        GetPage(
+          name: stutdentsRoute,
+          page: () => StudentsView(),
+          binding: StudentsBinding(),
+        ),
+        GetPage(
+          name: addStudentRoute,
+          page: () => AddStudentView(),
+          binding: AddStudentBinding(),
+        )
+      ],
+      initialRoute: stutdentsRoute,
     );
   }
 }

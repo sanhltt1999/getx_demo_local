@@ -9,10 +9,20 @@ class AddStudentController extends GetxController {
   RxList<Class> classes = RxList();
   RxBool isLoading = false.obs;
   RxInt addStudentStatus = 100.obs;
+  Rx<Class> currentClass = Class('').obs;
 
   AddStudentController() {
     _objectBox = ObjectBox();
-    loadClasses();
+  }
+
+  init(Student? student) async {
+    final result = await _objectBox.getClasses();
+    classes = result.obs;
+    if (student != null) {
+      currentClass.value = student.classRoom.target ?? classes.first;
+    } else {
+      currentClass.value = classes.first;
+    }
   }
 
   loadClasses() async {
@@ -27,7 +37,7 @@ class AddStudentController extends GetxController {
     showLoading();
     _objectBox.addStudent(student, classObject, nameStudent);
     hideLoading();
-    addStudentStatus = STATUS_SUCCESS.obs;
+    addStudentStatus = statusSuccess.obs;
   }
 
   addClass(String className) {

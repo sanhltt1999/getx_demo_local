@@ -4,14 +4,13 @@ import 'package:getx_demo/core/database/objectbox.g.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
-const STATUS_SUCCESS = 0;
-const STATUS_FAIL = -1;
+const statusSuccess = 0;
+const statusFail = -1;
 
 class ObjectBox {
-  static late final Store store;
-  static late final Box<Student> studentBox;
-  static late final Box<Class> classBox;
-  late final Admin _admin;
+  late final Store store;
+  late final Box<Student> studentBox;
+  late final Box<Class> classBox;
 
   static final ObjectBox _singleton = ObjectBox._internal();
   factory ObjectBox() {
@@ -19,25 +18,22 @@ class ObjectBox {
   }
   ObjectBox._internal();
 
-  ObjectBox._create() {
+  void openBoxes() {
     studentBox = Box<Student>(store);
     classBox = Box<Class>(store);
 
-    if (Admin.isAvailable()) {
-      _admin = Admin(store);
-    }
+    if (Admin.isAvailable()) {}
 
     if (studentBox.isEmpty()) {
       _putDemoData();
     }
   }
 
-  Future<ObjectBox> create() async {
+  Future<void> create() async {
     final documentsDirectory = await getApplicationDocumentsDirectory();
     final databaseDirectory =
         p.join(documentsDirectory.path, "getx_demo_local");
     store = await openStore(directory: databaseDirectory);
-    return ObjectBox._create();
   }
 
   void _putDemoData() {
@@ -66,7 +62,7 @@ class ObjectBox {
 
   addStudent(Student? student, Class? classObject, String nameStudent) {
     if (nameStudent.isEmpty || classObject == null) {
-      return STATUS_FAIL;
+      return statusFail;
     }
     if (student == null) {
       student = Student(nameStudent, DateTime.now());

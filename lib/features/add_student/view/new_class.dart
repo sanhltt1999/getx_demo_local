@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class NewClass extends StatefulWidget {
-  final void Function(String) updateClas;
+import '../controller/add_student_controller.dart';
 
-  const NewClass({Key? key, required this.updateClas}) : super(key: key);
-
-  @override
-  State<NewClass> createState() => _NewClassState();
-}
-
-class _NewClassState extends State<NewClass> {
+class NewClass extends StatelessWidget {
+  NewClass({Key? key}) : super(key: key);
   final _classInputController = TextEditingController();
+  final controller = Get.find<AddStudentController>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +28,8 @@ class _NewClassState extends State<NewClass> {
               TextButton(
                 child: const Text('Submit'),
                 onPressed: () {
+                  controller.addClass(_classInputController.text);
                   Get.back();
-                  widget.updateClas(_classInputController.text);
                 },
               ),
             ],
