@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
               getPages: [
                 GetPage(
                   name: stutdentsRoute,
-                  page: () => StudentsView(),
+                  page: () => const StudentsView(),
                   binding: StudentsBinding(),
                 ),
                 GetPage(
